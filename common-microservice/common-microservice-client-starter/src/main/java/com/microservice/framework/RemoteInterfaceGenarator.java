@@ -30,7 +30,7 @@ import org.redisson.config.Config;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.caucho.hessian.client.HessianProxyFactory;
-import com.microservice.annotation.RestfulService;
+import com.microservice.rest.annotation.RestfulService;
 import com.microservice.utils.BeanUtils;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.AMQP.BasicProperties;

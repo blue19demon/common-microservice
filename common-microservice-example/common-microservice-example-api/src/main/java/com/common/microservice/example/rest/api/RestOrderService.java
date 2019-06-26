@@ -8,7 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
 import com.common.microservice.example.rest.vo.RestOrder;
-import com.microservice.annotation.RestfulService;
+import com.microservice.rest.annotation.RestfulService;
 
 @RestfulService
 @Path("/orderAPI")

@@ -12,7 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 import com.common.microservice.example.rest.vo.Department;
-import com.microservice.annotation.RestfulService;
+import com.microservice.rest.annotation.RestfulService;
 
 @RestfulService
 @Path("/deptAPI")
