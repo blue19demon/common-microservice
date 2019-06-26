@@ -12,7 +12,7 @@ import com.microservice.framework.Configure;
 import com.microservice.framework.Invocation;
 import com.microservice.framework.RPCConfigure;
 import com.microservice.framework.URL;
-import com.microservice.register.ZKRegister;
+import com.microservice.register.RegistryContiner;
 public class HttpServerHandler {
 	public void handle(HttpServletRequest req, HttpServletResponse resp) {
 		try {
@@ -21,7 +21,7 @@ public class HttpServerHandler {
 			Invocation invocation = (Invocation) ois.readObject();
 			Configure conf=RPCConfigure.getConfigure();
 			URL url=new URL(conf.getHostname(), conf.getPort());
-			Class<?> inplClass=ZKRegister.get(invocation.getInterfaceName(), url);
+			Class<?> inplClass=RegistryContiner.get(invocation.getInterfaceName(), url);
 			Method method=inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
 			Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
 			ObjectOutputStream oos = new ObjectOutputStream(resp.getOutputStream());

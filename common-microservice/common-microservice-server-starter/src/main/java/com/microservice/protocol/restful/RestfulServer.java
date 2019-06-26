@@ -7,7 +7,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 
-import com.microservice.register.ZKRegister;
+import com.microservice.register.RegistryContiner;
 import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
@@ -16,7 +16,7 @@ public class RestfulServer {
 
 	public void start(String hostname, Integer port) {
 		URI uri = UriBuilder.fromUri("http://"+hostname).port(port).build();
-		ResourceConfig rc = new PackagesResourceConfig(ZKRegister.resourceScannerPackage);
+		ResourceConfig rc = new PackagesResourceConfig(RegistryContiner.resourceScannerPackage);
 		try {
 			HttpServer server = GrizzlyServerFactory.createHttpServer(uri, rc);
 			server.start();

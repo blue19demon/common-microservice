@@ -16,7 +16,7 @@ import com.microservice.framework.Configure;
 import com.microservice.framework.ProviderProtocol;
 import com.microservice.framework.RPCConfigure;
 import com.microservice.framework.URL;
-import com.microservice.register.ZKRegister;
+import com.microservice.register.RegistryContiner;
 
 public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPostProcessorAdapter
 		implements PriorityOrdered {
@@ -39,7 +39,7 @@ public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPo
 				resultBean = bySpringRMI(bean, conf, service, serviceName);
 			}else {
 				URL url=new URL(conf.getHostname(), conf.getPort());
-				ZKRegister.register(service.getInterfaces()[0], url, service);
+				RegistryContiner.register(service.getInterfaces()[0], url, service,bean);
 			}
 		}
 		return resultBean;

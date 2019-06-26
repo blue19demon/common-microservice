@@ -10,7 +10,7 @@ import com.microservice.framework.ProtocolFactory;
 import com.microservice.framework.ProviderProtocol;
 import com.microservice.framework.RPCConfigure;
 import com.microservice.framework.URL;
-import com.microservice.register.ZKRegister;
+import com.microservice.register.RegistryContiner;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +25,7 @@ public class ServerStarterRunner implements CommandLineRunner {
 		log.info("server use protocol = "+conf.getProtocol());
 		URL url = new URL(conf.getHostname(), conf.getPort());
 		if(ProviderProtocol.RESTFUL.equals(conf.getProtocol())) {
-			ZKRegister.restfulResourceScanner(conf.getRestfulScannerPackage());
+			RegistryContiner.restfulResourceScanner(conf.getRestfulScannerPackage());
 		}
 		// 启动
 		Protocol client = ProtocolFactory.getProtocol(conf.getProtocol());

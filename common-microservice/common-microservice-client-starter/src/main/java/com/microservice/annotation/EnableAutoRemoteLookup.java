@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 import com.microservice.core.MapperScannerRegistrar;
+
 @Import({MapperScannerRegistrar.class})
 @Target({ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)

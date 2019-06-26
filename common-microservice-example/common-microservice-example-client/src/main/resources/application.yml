@@ -3,10 +3,19 @@ server:
 microservice:
   provider:
    address: 172.18.56.153:1009
-  #通讯协议，http,netty,http,jetty,socket,rmi,hessian,
-  #redis,restful,webservice,mq等等
+  #通讯协议，netty
+           #http
+           #jetty
+           #socket
+           #rmi
+           #redis
+           #mq
+      #以下三种比较特殊
+           #hessian
+           #restful
+           #webservice(cxf实现)
   protocol: 
-   channel: redis
+   channel: http
    #redis 配置，当microservice.protocol=redis时候
    redis:  
     address: 127.0.0.1
@@ -14,7 +23,7 @@ microservice:
    #mq 配置，当microservice.protocol=mq时候
    rabbit: 
     address: 127.0.0.1
-    port: 2181
+    port: 5672
     username: mqtest
     password: 123456
   registry:
@@ -24,4 +33,4 @@ microservice:
        port: 2181
   #客户端扫描生成代理类
   remoteClientScan:
-    basePackages: com.common.microservice.example.rmi.api
+    basePackages: com.common.microservice.example.common.api,com.common.microservice.example.hessian.api,com.common.microservice.example.cxf.api,com.common.microservice.example.rest.api

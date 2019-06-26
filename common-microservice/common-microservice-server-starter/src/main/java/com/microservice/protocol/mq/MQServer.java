@@ -6,7 +6,7 @@ import com.microservice.framework.Configure;
 import com.microservice.framework.Invocation;
 import com.microservice.framework.RPCConfigure;
 import com.microservice.framework.URL;
-import com.microservice.register.ZKRegister;
+import com.microservice.register.RegistryContiner;
 import com.microservice.utils.BeanUtils;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.AMQP.BasicProperties;
@@ -44,7 +44,7 @@ public class MQServer {
 			    BasicProperties replyProps = new BasicProperties.Builder()  
 			            .correlationId(props.getCorrelationId()).build();  
 				Invocation invocation = (Invocation) BeanUtils.ByteToObject(delivery.getBody());
-				Class<?> inplClass = ZKRegister.get(invocation.getInterfaceName(), url);
+				Class<?> inplClass = RegistryContiner.get(invocation.getInterfaceName(), url);
 				Method method = inplClass.getDeclaredMethod(invocation.getMethodName(), invocation.getParamTypes());
 				Object result = method.invoke(inplClass.newInstance(), invocation.getParams());
 				// 返回处理结果队列

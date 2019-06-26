@@ -3,10 +3,19 @@ server:
 microservice:
   host:
    port: 1009
-  #通讯协议，http,netty,http,jetty,socket,rmi,hessian,
-  #redis,restful,webservice,mq等等
+    #通讯协议，netty
+           #http
+           #jetty
+           #socket
+           #rmi
+           #redis
+           #mq
+      #以下三种比较特殊
+           #hessian
+           #restful
+           #webservice(cxf实现)
   protocol: 
-   channel: redis
+   channel: http
    #redis 配置，当microservice.protocol=redis时候
    redis:  
     address: 127.0.0.1
@@ -14,12 +23,12 @@ microservice:
    #mq 配置，当microservice.protocol=mq时候
    rabbit: 
     address: 127.0.0.1
-    port: 2181
+    port: 5672
     username: mqtest
     password: 123456
    #restful 配置，当microservice.protocol=restful时候
    restful:  
-    scannerPackage: com.microservice.restful.api
+    scannerPackage: com.common.microservice.example.server.rest
   registry:
     zookeeper:
       host: 
