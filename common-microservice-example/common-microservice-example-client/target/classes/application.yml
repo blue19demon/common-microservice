@@ -1,0 +1,27 @@
+server:
+  port: 81
+microservice:
+  provider:
+   address: 172.18.56.153:1009
+  #通讯协议，http,netty,http,jetty,socket,rmi,hessian,
+  #redis,restful,webservice,mq等等
+  protocol: 
+   channel: redis
+   #redis 配置，当microservice.protocol=redis时候
+   redis:  
+    address: 127.0.0.1
+    port: 6379
+   #mq 配置，当microservice.protocol=mq时候
+   rabbit: 
+    address: 127.0.0.1
+    port: 2181
+    username: mqtest
+    password: 123456
+  registry:
+    zookeeper:
+      host: 
+       address: 127.0.0.1
+       port: 2181
+  #客户端扫描生成代理类
+  remoteClientScan:
+    basePackages: com.common.microservice.example.rmi.api

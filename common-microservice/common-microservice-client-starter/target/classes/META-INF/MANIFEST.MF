@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: common-microservice-client-starter
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Administrator
+Implementation-Vendor-Id: com.microservice
+Build-Jdk: 1.8.0_77
+Implementation-URL: http://projects.spring.io/spring-boot/common-micro
+ service-client-starter/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
