@@ -1,9 +1,5 @@
 package com.common.microservice.example.cxf.vo;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-
-@XmlRootElement
 public class HelloEntity {
 
 	private String word;

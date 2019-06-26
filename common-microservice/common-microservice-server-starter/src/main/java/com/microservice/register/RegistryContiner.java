@@ -1,34 +1,24 @@
 package com.microservice.register;
 
-import java.rmi.Remote;
-import java.rmi.registry.LocateRegistry;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.jws.WebService;
-import javax.xml.ws.Endpoint;
-
 import org.I0Itec.zkclient.ZkClient;
-import org.redisson.api.RRemoteService;
-import org.redisson.api.RedissonClient;
 
-import com.caucho.hessian.server.HessianServlet;
 import com.microservice.framework.Configure;
-import com.microservice.framework.ProviderProtocol;
 import com.microservice.framework.RPCConfigure;
 import com.microservice.framework.URL;
-import com.microservice.protocol.redis.RedissonClientBuilder;
 
-@SuppressWarnings({"rawtypes","unchecked"})
+@SuppressWarnings({"rawtypes"})
 public class RegistryContiner {
 
 	private static Map<String, Map<URL, Class>> REGISTER = new HashMap<>();
 	
 	private static ZkClient zk = null;
 	
-	private static Map<String,Object> servletHolderMap=new HashMap<>();
+	public static Map<String,Object> servletHolderMap = new HashMap<>();
 	
-	public static String resourceScannerPackage=null;
+	public static String resourceScannerPackage = null;
 	
 	static {
 		Configure conf = RPCConfigure.getConfigure();
@@ -38,38 +28,6 @@ public class RegistryContiner {
 
 	public static void register(Class interfaceClazz, URL url, Class implClass,Object implObject) {
 		String interfaceName=interfaceClazz.getName();
-		Configure conf = RPCConfigure.getConfigure();
-		if (ProviderProtocol.REDIS.equals(conf.getProtocol())) {
-			try {
-				RedissonClient redisson = RedissonClientBuilder.build();
-				RRemoteService remoteService = redisson.getRemoteService();
-				remoteService.register(interfaceClazz, implClass.newInstance());
-				Map<URL, Class> map = new HashMap<>();
-				map.put(url, implClass);
-				REGISTER.put(interfaceClazz.getName(), map);
-				writeToZK(REGISTER);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}else if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
-			if(interfaceClazz.isAnnotationPresent(WebService.class)) {
-				String address="http://"+url.getHostName()+":"+url.getPort()+"/"+interfaceName;
-				System.out.println(address);
-				Endpoint.publish(address,implObject);
-			}
-		}else if (ProviderProtocol.HESSIAN.equals(conf.getProtocol())) {
-			if(implObject instanceof HessianServlet) {
-				servletHolderMap.put("/"+interfaceName, implObject);
-			}
-		}else if (false) {//ProviderProtocol.RMI.equals(conf.getProtocol())
-			try {
-				System.out.println("rmi://"+url.getHostName()+":"+url.getPort()+"/"+interfaceName);
-				LocateRegistry.createRegistry(url.getPort());
-				java.rmi.Naming.rebind("rmi://"+url.getHostName()+":"+url.getPort()+"/"+interfaceName, (Remote) implObject);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-		}
 		Map<URL, Class> map = new HashMap<>();
 		map.put(url, implClass);
 		REGISTER.put(interfaceName, map);

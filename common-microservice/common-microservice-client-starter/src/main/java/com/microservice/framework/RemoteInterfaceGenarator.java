@@ -6,7 +6,6 @@ import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
-import java.rmi.Naming;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +61,7 @@ public class RemoteInterfaceGenarator {
 		if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
 			JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 			factory.setServiceClass(interfaceClass);
-			factory.setAddress("http://" + conf.getHostname() + ":" + conf.getPort() + "/" + interfaceClass.getName());
+			factory.setAddress("http://127.0.0.1:80/" + interfaceClass.getName());
 			T client = (T) factory.create();
 			return client;
 		} else if (ProviderProtocol.RESTFUL.equals(conf.getProtocol())) {
@@ -82,16 +81,7 @@ public class RemoteInterfaceGenarator {
 				e.printStackTrace();
 			}
 			return (T) target;
-		} else if (false) {//ProviderProtocol.RMI.equals(conf.getProtocol())
-			Object target = null;
-			try {
-				target = Naming
-						.lookup("rmi://" + conf.getHostname() + ":" + conf.getPort() + "/" + interfaceClass.getName());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return (T) target;
-		} else {
+		}else {
 			return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[] { interfaceClass },
 					new InvocationHandler() {
 						@Override

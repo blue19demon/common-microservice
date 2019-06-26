@@ -3,6 +3,12 @@ package com.microservice.core;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
+import javax.jws.WebService;
+
+import org.apache.cxf.bus.spring.SpringBus;
+import org.apache.cxf.jaxws.EndpointImpl;
+import org.redisson.api.RRemoteService;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
@@ -11,11 +17,13 @@ import org.springframework.core.PriorityOrdered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 
+import com.caucho.hessian.server.HessianServlet;
 import com.microservice.annotation.RemoteService;
 import com.microservice.framework.Configure;
 import com.microservice.framework.ProviderProtocol;
 import com.microservice.framework.RPCConfigure;
 import com.microservice.framework.URL;
+import com.microservice.protocol.redis.RedissonClientBuilder;
 import com.microservice.register.RegistryContiner;
 
 public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPostProcessorAdapter
@@ -23,6 +31,7 @@ public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPo
 
 	private int order = Ordered.LOWEST_PRECEDENCE - 1;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 		RemoteService remoteService = AnnotationUtils.findAnnotation(bean.getClass(), RemoteService.class);
@@ -30,16 +39,35 @@ public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPo
 		Object resultBean = bean;
 		if (null != remoteService) {
 			Class<?> service = bean.getClass();
+			@SuppressWarnings("rawtypes")
+			Class interfaceClazz = service.getInterfaces()[0];
 			String serviceName = service.getInterfaces()[0].getSimpleName();
 			if (serviceName.startsWith("/")) {
 				serviceName = serviceName.substring(1);
 			}
-			//RMI不走JDK的方式
+			//不走zookeeper
 			if (ProviderProtocol.RMI.equals(conf.getProtocol())) {
 				resultBean = bySpringRMI(bean, conf, service, serviceName);
+			}else if (ProviderProtocol.REDIS.equals(conf.getProtocol())) {
+				try {
+					RedissonClient redisson = RedissonClientBuilder.build();
+					RRemoteService rremoteService = redisson.getRemoteService();
+					rremoteService.register(interfaceClazz, bean);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}else if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
+				if(interfaceClazz.isAnnotationPresent(WebService.class)) {
+					  System.out.println("------------------------");
+					  new EndpointImpl(new SpringBus()).publish("/"+interfaceClazz.getName()); //显示要发布的名称
+				}
+			}else if (ProviderProtocol.HESSIAN.equals(conf.getProtocol())) {
+				if(bean instanceof HessianServlet) {
+					RegistryContiner.servletHolderMap.put("/"+interfaceClazz.getName(), bean);
+				}
 			}else {
 				URL url=new URL(conf.getHostname(), conf.getPort());
-				RegistryContiner.register(service.getInterfaces()[0], url, service,bean);
+				RegistryContiner.register(interfaceClazz, url, service,bean);
 			}
 		}
 		return resultBean;

@@ -2,10 +2,7 @@ package com.common.microservice.example.cxf.vo;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-
-@XmlRootElement
 public class APIResponse implements Serializable {
 
 	/**
