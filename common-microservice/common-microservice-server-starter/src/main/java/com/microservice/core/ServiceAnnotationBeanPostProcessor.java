@@ -5,8 +5,6 @@ import java.rmi.registry.Registry;
 
 import javax.jws.WebService;
 
-import org.apache.cxf.bus.spring.SpringBus;
-import org.apache.cxf.jaxws.EndpointImpl;
 import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeansException;
@@ -59,8 +57,8 @@ public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPo
 				}
 			}else if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
 				if(interfaceClazz.isAnnotationPresent(WebService.class)) {
-					  SpringBus cxf =new SpringBus();
-					  new EndpointImpl(cxf,bean).publish("/"+interfaceClazz.getName()); //显示要发布的名称
+					  //SpringBus cxf =new SpringBus();
+					 // new EndpointImpl(cxf,bean).publish("/"+interfaceClazz.getName()); //显示要发布的名称
 				}
 			}else if (ProviderProtocol.HESSIAN.equals(conf.getProtocol())) {
 				if(bean instanceof HessianServlet) {

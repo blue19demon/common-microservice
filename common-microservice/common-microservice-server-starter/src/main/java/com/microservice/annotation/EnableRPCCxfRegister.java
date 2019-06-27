@@ -9,9 +9,10 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
+import com.microservice.core.ApplicationStartup;
 import com.microservice.core.CxfConfig;
 
-@Import({CxfConfig.class})
+@Import({CxfConfig.class,ApplicationStartup.class})
 @Target({ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

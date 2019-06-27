@@ -10,7 +10,7 @@ import com.microservice.annotation.EnableRPCCxfRegister;
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { PersistenceExceptionTranslationAutoConfiguration.class}) // 禁止springboot自动加载持久化bean
-@EnableRPCAutoRegister
+//@EnableRPCAutoRegister
 @EnableRPCCxfRegister
 public class ProviderApplication {
 
