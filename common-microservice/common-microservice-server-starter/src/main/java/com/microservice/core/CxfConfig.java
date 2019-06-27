@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CxfConfig {
-
-    @Bean
+	@Bean
     public ServletRegistrationBean dispatcherServlet(){
         return new ServletRegistrationBean(new CXFServlet(),"/*");//发布服务名称
     }
+
 }

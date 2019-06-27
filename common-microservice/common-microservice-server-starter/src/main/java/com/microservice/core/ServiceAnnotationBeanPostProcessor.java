@@ -30,8 +30,9 @@ public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPo
 		implements PriorityOrdered {
 
 	private int order = Ordered.LOWEST_PRECEDENCE - 1;
+
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "resource" })
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 		RemoteService remoteService = AnnotationUtils.findAnnotation(bean.getClass(), RemoteService.class);
@@ -58,8 +59,8 @@ public class ServiceAnnotationBeanPostProcessor extends InstantiationAwareBeanPo
 				}
 			}else if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
 				if(interfaceClazz.isAnnotationPresent(WebService.class)) {
-					  System.out.println("------------------------");
-					  new EndpointImpl(new SpringBus()).publish("/"+interfaceClazz.getName()); //显示要发布的名称
+					  SpringBus cxf =new SpringBus();
+					  new EndpointImpl(cxf,bean).publish("/"+interfaceClazz.getName()); //显示要发布的名称
 				}
 			}else if (ProviderProtocol.HESSIAN.equals(conf.getProtocol())) {
 				if(bean instanceof HessianServlet) {

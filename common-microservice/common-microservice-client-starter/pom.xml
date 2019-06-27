@@ -103,16 +103,11 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!--WerbService CXF依赖 -->
+		<!--CXF依赖 -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>3.1.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>3.1.12</version>
+			<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+			<version>3.1.11</version>
 		</dependency>
 		
 		<dependency>

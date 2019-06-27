@@ -15,7 +15,7 @@ import com.microservice.register.RegistryContiner;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Order(value = 2)
+@Order(value = 3)
 @Slf4j
 public class ServerStarterRunner implements CommandLineRunner {
 	@Override

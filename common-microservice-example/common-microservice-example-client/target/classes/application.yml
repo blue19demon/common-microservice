@@ -15,7 +15,7 @@ microservice:
            #restful
            #webservice(cxf实现)
   protocol: 
-   channel: redis
+   channel: webservice
    #redis 配置，当microservice.protocol=redis时候
    redis:  
     address: 127.0.0.1

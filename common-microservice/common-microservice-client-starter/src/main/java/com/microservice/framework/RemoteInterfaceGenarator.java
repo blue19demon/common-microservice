@@ -60,8 +60,8 @@ public class RemoteInterfaceGenarator {
 		}
 		if (ProviderProtocol.WEBSERVICE.equals(conf.getProtocol())) {
 			JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+			factory.setAddress("http://localhost:8080/" + interfaceClass.getName()+"?wsdl");
 			factory.setServiceClass(interfaceClass);
-			factory.setAddress("http://127.0.0.1:80/" + interfaceClass.getName());
 			T client = (T) factory.create();
 			return client;
 		} else if (ProviderProtocol.RESTFUL.equals(conf.getProtocol())) {
