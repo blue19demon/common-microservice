@@ -27,7 +27,7 @@ rem 从svn拉取代码下来
 @echo off
 echo ===========从svn拉取代码开始=========
 cd F:\SVN-jhzb-web
-svn checkout http://172.18.8.33:8008/svn/jhjhome/dev/jhzb/jhzb-web jhzb-web --username huangjian --password 1234qwer
+
 cd jhzb-web
 svn update;
 echo ===========从svn拉取代码完成=========
